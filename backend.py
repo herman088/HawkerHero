@@ -1,5 +1,167 @@
-from fastapi import FastAPI
+from fastapi import FastAPI,Query
+from elasticsearch import Elasticsearch,helpers
+
 app = FastAPI()
+
+es = Elasticsearch(['http://localhost:9200'], basic_auth=("elastic", "5vRl7G_wpBvo8CytUL=h")) 
+
+INDEX = "hawker_reviews"
+
+def normalize_query(q):
+    return q.lower().strip()
+
+def build_query(dish, limit=20):
+    return {
+        "size": 0,
+        "query": { #Use the query parameter to limit the documents on which an aggregation runs:
+            "bool": {
+                "should": [
+                    {
+                        "match": {
+                            "review_text": {
+                                "query": dish,
+                                "boost": 1.0
+                            }
+                        }
+                    },
+                    {
+                        "match": {
+                            "context_recommended": {
+                                "query": dish,
+                                "boost": 2.0
+                            }
+                        }
+                    },
+                    {
+                        "nested": {
+                            "path": "absa",
+                            "query": {
+                                "bool": {
+                                    "must": [
+                                        {"term": {"absa.sentiment": "Positive"}},
+                                        {
+                                            "wildcard": {
+                                            "absa.aspect": {
+                                                "value": "*chicken*rice*"
+                                            }
+                                         }
+                                        }
+                                    ]
+                                }
+                            },
+                            "score_mode": "sum",
+                            "boost": 3.0
+                        }
+                    }
+                ]
+            }
+        },
+        "aggs": { #sub-aggregations
+            "by_hawker": {
+                "terms": {
+                    "field": "hawker_name.keyword",
+                    "size": limit
+                },
+                "aggs": {
+                    "food_mentions": {
+                        "nested": {
+                            "path": "absa"
+                        },
+                        "aggs": {
+                            "positive_food": {
+                                "filter": {
+                                    "bool": {
+                                        "must": [
+                                            {"term": {"absa.sentiment": "Positive"}},
+                                            {
+                                                "wildcard": {
+                                                    "absa.aspect": {
+                                                        "value": "*chicken*rice*"
+                                                }
+                                              }
+                                            }
+                                        ]
+                                    }
+                                },
+                                "aggs": {
+                                    "confidence_sum": {
+                                        "sum": {
+                                            "field": "absa.confidence"
+                                        }
+                                    },
+                                    "mention_count": {
+                                        "value_count": {
+                                            "field": "absa.aspect"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                          "recommended_food": {
+                            "filter": {
+                                "match": {
+                                "context_recommended": {
+                                    "query": "chicken rice"
+                                }
+                                }
+                            }
+                     }
+                    
+                }
+            }
+        }
+    }
+
 @app.get("/")
 def root():
     return {"Hello":"World"}
+
+
+@app.get("/search")
+def search(dish: str = Query(...),limit: int = 10):
+    dish = normalize_query(dish)
+    query = build_query(dish,limit)
+
+    res = es.search(index=INDEX,body=query)
+
+    hawkers = []
+
+    for h in res["aggregations"]["by_hawker"]["buckets"]:
+        #reviews mentions
+        counts = h["doc_count"]
+        
+        absa = h["food_mentions"]["positive_food"]
+        positive_count = absa["doc_count"]
+        confidence_sum  = absa["confidence_sum"]["value"]
+
+        rec = h["recommended_food"]
+        recommended_count = rec["doc_count"]
+
+
+        score = ( positive_count * 1.0 + confidence_sum * 2.0 + recommended_count * 0.8)
+        hawkers.append({"hawker":h["key"],
+                       "score":score,
+                       "positive_mentions":positive_count,
+                       "confidence":confidence_sum,
+                       "recommended_mentions":recommended_count,
+                        "mentions":counts}) 
+        
+
+
+        
+    hawkers.sort(key=lambda x: x["score"], reverse=True)
+    return hawkers
+
+
+
+
+
+
+
+
+
+
+
+
+        
