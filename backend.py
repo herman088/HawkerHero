@@ -1,7 +1,15 @@
-from fastapi import FastAPI,Query
+from fastapi import FastAPI,Query 
+from fastapi.staticfiles import StaticFiles
 from elasticsearch import Elasticsearch,helpers
+from fastapi.responses import FileResponse
 
 app = FastAPI()
+
+app.mount("/static", StaticFiles(directory="static", html=True), name="static")
+
+@app.get("/")
+def home():
+    return FileResponse("static/index.html")
 
 es = Elasticsearch(['http://localhost:9200'], basic_auth=("elastic", "5vRl7G_wpBvo8CytUL=h")) 
 
@@ -113,9 +121,9 @@ def build_query(dish, limit=20):
         }
     }
 
-@app.get("/")
-def root():
-    return {"Hello":"World"}
+
+
+
 
 
 @app.get("/search")
@@ -153,6 +161,8 @@ def search(dish: str = Query(...),limit: int = 10):
     hawkers.sort(key=lambda x: x["score"], reverse=True)
     return hawkers
 
+
+   
 
 
 
