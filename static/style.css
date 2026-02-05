@@ -29,9 +29,27 @@ input {
   margin: 10px 0;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  height: 100px;
+  width: 500px;
+  display: flex;
+  flex-direction: row;
 }
 .card > img {
   height: 100px;
   width: 100px;
   object-fit: cover;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  margin: 0px 10px;
+  height: 100%;
+}
+.card-title {
+  margin-top: 0px;
+}
+.score {
+  margin-top: auto;
+  margin-block-end: 0; /* p has defaulkt margin-block-start and margin-block-end 1em margin */
 }

@@ -12,9 +12,11 @@ async function search() {
     div.className = "card";
     div.dataset.hawker = h.hawker;
     div.innerHTML = `
-      <h3>#${i + 1} ${h.hawker}</h3>
       <img src = ${h.thumbnail}>
-      <p>${h.rating} ⭐</p>
+      <div class = "card-content">
+        <h3 class="card-title">#${i + 1} ${h.hawker}</h3>
+        <p class = "score">${h.rating} ⭐</p>
+      </div>
     `;
     container.appendChild(div);
   });
