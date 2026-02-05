@@ -1,0 +1,37 @@
+body {
+  padding: 40px;
+  height: 100vh;
+  background: #fff7e7;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+button {
+  padding: 10px 15px;
+}
+.headerSearch {
+  display: flex;
+  flex-direction: column; /* stack vertically */
+  align-items: center; /* center horizontally */
+  gap: 16px; /* space between title and input */
+}
+
+input {
+  width: 300px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.card {
+  background: white;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.card > img {
+  height: 100px;
+  width: 100px;
+  object-fit: cover;
+}

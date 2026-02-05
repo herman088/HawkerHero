@@ -2,6 +2,7 @@ from fastapi import FastAPI,Query
 from fastapi.staticfiles import StaticFiles
 from elasticsearch import Elasticsearch,helpers
 from fastapi.responses import FileResponse
+import json
 
 app = FastAPI()
 
@@ -124,6 +125,13 @@ def build_query(dish, limit=20):
 
 
 
+with open("hawker_deets.json","r",encoding="utf-8") as f:
+    HAWKERS = json.load(f)
+   
+HAWKERS_BY_NAME = {
+    h["title"].strip().lower(): h
+    for h in HAWKERS
+}
 
 
 @app.get("/search")
@@ -138,7 +146,10 @@ def search(dish: str = Query(...),limit: int = 10):
     for h in res["aggregations"]["by_hawker"]["buckets"]:
         #reviews mentions
         counts = h["doc_count"]
-        
+        hawker_name = h["key"].strip()
+        normalized_name = hawker_name.lower()
+
+
         absa = h["food_mentions"]["positive_food"]
         positive_count = absa["doc_count"]
         confidence_sum  = absa["confidence_sum"]["value"]
@@ -148,23 +159,32 @@ def search(dish: str = Query(...),limit: int = 10):
 
 
         score = ( positive_count * 1.0 + confidence_sum * 2.0 + recommended_count * 0.8)
+        
+
+        meta = HAWKERS_BY_NAME.get(normalized_name,{})
+        
+        if meta:
+            img = meta.get("media", [None])[0]
+            rating = meta.get("rating")
+        
         hawkers.append({"hawker":h["key"],
                        "score":score,
                        "positive_mentions":positive_count,
                        "confidence":confidence_sum,
                        "recommended_mentions":recommended_count,
-                        "mentions":counts}) 
+                        "mentions":counts,
+                        "thumbnail": img,
+                        "rating":rating}) 
         
-
-
+        
+      
         
     hawkers.sort(key=lambda x: x["score"], reverse=True)
     return hawkers
 
 
-   
 
-
+        
 
 
 

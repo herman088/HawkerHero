@@ -2,13 +2,16 @@
 <html>
   <head>
     <title>Hawker Search</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/static/style.css" />
   </head>
   <body>
-    <h1>🍜 Find the best dish</h1>
-
-    <input id="search" placeholder="e.g. chicken rice" />
-    <button onclick="search()">Search</button>
+    <div class="headerSearch">
+      <h1>🍜 Find the best dish</h1>
+      <div>
+        <input id="search" placeholder="e.g. chicken rice" />
+        <button onclick="search()">Search</button>
+      </div>
+    </div>
 
     <div id="results"></div>
 

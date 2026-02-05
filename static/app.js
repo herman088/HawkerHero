@@ -10,12 +10,19 @@ async function search() {
   data.forEach((h, i) => {
     const div = document.createElement("div");
     div.className = "card";
+    div.dataset.hawker = h.hawker;
     div.innerHTML = `
       <h3>#${i + 1} ${h.hawker}</h3>
-      <p>Score: ${h.score.toFixed(2)}</p>
-      <p>Positive mentions: ${h.positive_mentions}</p>
-      <p>Recommended: ${h.recommended_mentions}</p>
+      <img src = ${h.thumbnail}>
+      <p>${h.rating} ⭐</p>
     `;
     container.appendChild(div);
   });
 }
+
+document.getElementById("results").addEventListener("click", (e) => {
+  const card = e.target.closest(".card");
+  if (!card) return;
+
+  const hawker = card.dataset.hawker;
+});
