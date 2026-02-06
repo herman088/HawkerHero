@@ -53,3 +53,47 @@ input {
   margin-top: auto;
   margin-block-end: 0; /* p has defaulkt margin-block-start and margin-block-end 1em margin */
 }
+
+/* modal css */
+.hidden {
+  display: none !important;
+}
+/* modal backdrop */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-content {
+  background: #fff;
+  max-width: 800px;
+  width: 90%;
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.modal-image {
+  width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+  object-fit: cover;
+}
+#modal-close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: white;
+  font-size: 36px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.2s;
+}

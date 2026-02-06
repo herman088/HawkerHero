@@ -47,14 +47,16 @@ async function openHawker(cardData) {
   document.getElementById("modal").classList.remove("hidden");
 }
 
-/*
-document.getElementById("modal-close").addEventListener("click", () => {
-  document.getElementById("modal").classList.add("hidden");
-});
-
-document.getElementById("modal").addEventListener("click", (e) => {
-  if (e.target.id === "modal") {
+document.addEventListener("DOMContentLoaded", (e) => {
+  /* so event listener attach after dom runs, else error */
+  document.getElementById("modal-close").addEventListener("click", () => {
+    e.stopPropagation();
     document.getElementById("modal").classList.add("hidden");
-  }
+  });
+
+  document.getElementById("modal").addEventListener("click", (e) => {
+    if (e.target.id === "modal") {
+      document.getElementById("modal").classList.add("hidden");
+    }
+  });
 });
-*/
