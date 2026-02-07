@@ -1,13 +1,23 @@
-async function search() {
+//document.getElementById("search").addEventListener("keydown", (e) => {
+//if (e.key === "Enter") search(1);
+//});
+let currentPage = 1;
+const limit = 10;
+let currentQuery = " ";
+async function search(page = 1) {
   const q = document.getElementById("search").value;
-  const res = await fetch(`/search?dish=${encodeURIComponent(q)}`);
+  currentQuery = q;
+  currentPage = page;
+  const res = await fetch(
+    `/search?dish=${encodeURIComponent(q)}&page=${page}&limit=${limit}`,
+  );
 
   const data = await res.json(); //response body to js object
 
   const container = document.getElementById("results");
   container.innerHTML = "";
 
-  data.forEach((h, i) => {
+  data.results.forEach((h, i) => {
     const div = document.createElement("div");
     div.className = "card";
     div.dataset.hawker = h.hawker;
@@ -21,6 +31,8 @@ async function search() {
     `;
     container.appendChild(div);
   });
+
+  updatePagination(data.page, data.total_pages);
 }
 
 document.getElementById("results").addEventListener("click", (e) => {
@@ -59,4 +71,25 @@ document.addEventListener("DOMContentLoaded", (e) => {
       document.getElementById("modal").classList.add("hidden");
     }
   });
+
+  // update pagination results
+
+  document.getElementById("prev-btn").onclick = () => {
+    if (currentPage > 1) {
+      search(currentPage - 1);
+    }
+  };
+
+  document.getElementById("next-btn").onclick = () => {
+    if (currentPage <= 7) {
+      search(currentPage + 1);
+    }
+  };
 });
+
+function updatePagination(page, totalPages) {
+  document.getElementById("page-info").textContent = `${page} of ${totalPages}`;
+
+  document.getElementById("prev-btn").disabled = page <= 1;
+  document.getElementById("next-btn").disabled = page >= totalPages;
+}

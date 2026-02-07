@@ -3,6 +3,7 @@ from fastapi.staticfiles import StaticFiles
 from elasticsearch import Elasticsearch,helpers
 from fastapi.responses import FileResponse
 import json
+import math
 
 app = FastAPI()
 
@@ -19,7 +20,7 @@ INDEX = "hawker_reviews"
 def normalize_query(q):
     return q.lower().strip()
 
-def build_query(dish, limit=20):
+def build_query(dish):
     return {
         "size": 0,
         "query": { #Use the query parameter to limit the documents on which an aggregation runs:
@@ -69,7 +70,7 @@ def build_query(dish, limit=20):
             "by_hawker": {
                 "terms": {
                     "field": "hawker_name.keyword",
-                    "size": limit
+                    "size": 100
                 },
                 "aggs": {
                     "food_mentions": {
@@ -135,9 +136,9 @@ HAWKERS_BY_NAME = {
 
 
 @app.get("/search")
-def search(dish: str = Query(...),limit: int = 10):
+def search(dish: str = Query(...),page:int=Query(1,ge=1),limit:int = Query(10,ge=1)):
     dish = normalize_query(dish)
-    query = build_query(dish,limit)
+    query = build_query(dish)
 
     res = es.search(index=INDEX,body=query)
 
@@ -180,10 +181,23 @@ def search(dish: str = Query(...),limit: int = 10):
       
         
     hawkers.sort(key=lambda x: x["score"], reverse=True)
-    return hawkers
+    
+    total = len(hawkers)
+    total_pages = math.ceil(total/limit)
+    start = (page - 1)* limit
+    end = start + limit
+
+    paginated = hawkers[start:end]
 
 
-
+    return {
+        "query":dish,
+        "page":page,
+        "limit":limit,
+        "total":total,
+        "total_pages":total_pages,
+        "results":paginated
+    }
         
 
 
