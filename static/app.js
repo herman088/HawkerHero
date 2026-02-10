@@ -35,31 +35,30 @@ async function search(page = 1) {
   updatePagination(data.page, data.total_pages);
 }
 
-document.getElementById("results").addEventListener("click", (e) => {
-  const card = e.target.closest(".card");
-  if (!card) return;
-
-  const hawker = card.dataset.hawker;
-  const meta = JSON.parse(card.dataset.meta); //JS string to js obj
-  openHawker(meta);
-});
-
 async function openHawker(cardData) {
   document.getElementById("modal-image").src = cardData.thumbnail;
   document.getElementById("modal-title").innerText = cardData.hawker;
   document.getElementById("modal-rating").innerText =
     `⭐ ${cardData.rating || "N/A"}`;
   document.getElementById("mentions").innerText =
-    `Total mentions: ${cardData.mentions}`;
+    `Total ${currentQuery} mentions: ${cardData.mentions}`;
   document.getElementById("reco-count").innerText =
-    `Total recommendations: ${cardData.recommended_mentions}`;
+    `Total ${currentQuery} recommendations: ${cardData.recommended_mentions}`;
   document.getElementById("positive-count").innerText =
-    `Total mentions: ${cardData.positive_mentions}`;
+    `Total ${currentQuery} positive mentions: ${cardData.positive_mentions}`;
 
   document.getElementById("modal").classList.remove("hidden");
 }
 
 document.addEventListener("DOMContentLoaded", (e) => {
+  document.getElementById("results").addEventListener("click", (e) => {
+    const card = e.target.closest(".card");
+    if (!card) return;
+
+    const hawker = card.dataset.hawker;
+    const meta = JSON.parse(card.dataset.meta); //JS string to js obj
+    openHawker(meta);
+  });
   /* so event listener attach after dom runs, else error */
   document.getElementById("modal-close").addEventListener("click", () => {
     e.stopPropagation();
