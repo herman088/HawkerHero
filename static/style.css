@@ -83,7 +83,7 @@ input {
 
 .modal-image {
   width: 100%;
-  height: auto;
+  height: 400px;
   margin-bottom: 20px;
   object-fit: cover;
 }

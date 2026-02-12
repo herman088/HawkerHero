@@ -25,7 +25,7 @@ async function search(page = 1) {
     div.innerHTML = `
       <img src = ${h.thumbnail}>
       <div class = "card-content">
-        <h3 class="card-title">#${i + 1} ${h.hawker}</h3>
+        <h3 class="card-title"> ${h.hawker}</h3>
         <p class = "score">${h.rating} ⭐</p>
       </div>
     `;
