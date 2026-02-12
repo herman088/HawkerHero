@@ -98,6 +98,8 @@ input {
   margin-left: 20px;
   display: flex;
   flex-direction: column;
+  height: 250px;
+  position: relative;
 }
 .modal-image {
   width: 250px;
@@ -119,4 +121,10 @@ input {
 
 #search {
   width: 75%;
+}
+
+#modal-title {
+  position: relative;
+  top: 0;
+  margin-block-start: 0;
 }
