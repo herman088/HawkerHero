@@ -25,7 +25,7 @@ async function search(page = 1) {
     div.innerHTML = `
       <img src = ${h.thumbnail}>
       <div class = "card-content">
-        <h3 class="card-title"> ${h.hawker}</h3>
+        <h3 class="card-title"> ${toTitleCase(h.hawker)}</h3>
         <p class = "score">${h.rating} ⭐</p>
       </div>
     `;
@@ -37,7 +37,9 @@ async function search(page = 1) {
 
 async function openHawker(cardData) {
   document.getElementById("modal-image").src = cardData.thumbnail;
-  document.getElementById("modal-title").innerText = cardData.hawker;
+  document.getElementById("modal-title").innerText = toTitleCase(
+    cardData.hawker,
+  );
   document.getElementById("modal-rating").innerText =
     `⭐ ${cardData.rating || "N/A"}`;
   document.getElementById("mentions").innerText =
@@ -87,8 +89,25 @@ document.addEventListener("DOMContentLoaded", (e) => {
 });
 
 function updatePagination(page, totalPages) {
-  document.getElementById("page-info").textContent = `${page} of ${totalPages}`;
+  if (totalPages > 1) {
+    document.getElementById("page-info").textContent =
+      `${page} of ${totalPages}`;
 
-  document.getElementById("prev-btn").disabled = page <= 1;
-  document.getElementById("next-btn").disabled = page >= totalPages;
+    document.getElementById("prev-btn").disabled = page <= 1;
+    document.getElementById("next-btn").disabled = page >= totalPages;
+    document.getElementById("pagination-controls").classList.remove("hidden");
+  }
+}
+
+function toTitleCase(str) {
+  return str
+    .toLowerCase()
+    .split(" ")
+    .map((word) =>
+      word
+        .split("-")
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+        .join("-"),
+    )
+    .join(" ");
 }

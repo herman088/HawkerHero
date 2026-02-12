@@ -15,6 +15,11 @@ button {
   flex-direction: column; /* stack vertically */
   align-items: center; /* center horizontally */
   gap: 16px; /* space between title and input */
+  width: 500px;
+}
+
+.headerSearch > div {
+  width: 100%;
 }
 
 input {
@@ -96,4 +101,8 @@ input {
   font-weight: bold;
   cursor: pointer;
   transition: color 0.2s;
+}
+
+#search {
+  width: 75%;
 }

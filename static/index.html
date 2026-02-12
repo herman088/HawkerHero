@@ -9,7 +9,7 @@
       <h1>🍜 Find the best dish</h1>
       <div>
         <input id="search" placeholder="e.g. chicken rice" />
-        <button onclick="search()">Search</button>
+        <button id="searchBtn" onclick="search()">Search</button>
       </div>
     </div>
 
@@ -36,10 +36,10 @@
       </div>
     </div>
 
-    <div id="pagination-controls">
-      <button id="prev-btn">Previous</button>
+    <div id="pagination-controls" class="hidden">
+      <button id="prev-btn">«</button>
       <span id="page-info"></span>
-      <button id="next-btn">Next</button>
+      <button id="next-btn">»</button>
     </div>
   </body>
 </html>
