@@ -89,6 +89,7 @@ input {
   border-radius: 20px;
   position: relative;
   display: flex;
+  flex-direction: column;
 }
 #card-row-top {
   display: flex;

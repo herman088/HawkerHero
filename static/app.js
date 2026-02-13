@@ -48,7 +48,7 @@ async function openHawker(cardData) {
     `Total ${currentQuery} recommendations: ${cardData.recommended_mentions}`;
   document.getElementById("positive-count").innerText =
     `Total ${currentQuery} positive mentions: ${cardData.positive_mentions}`;
-
+  document.getElementById("desc").innerText = `${cardData.desc}`;
   document.getElementById("modal").classList.remove("hidden");
 }
 

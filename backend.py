@@ -167,6 +167,7 @@ def search(dish: str = Query(...),page:int=Query(1,ge=1),limit:int = Query(10,ge
         if meta:
             img = meta.get("media", [None])[0]
             rating = meta.get("rating")
+            desc = meta.get("desc")
         
         hawkers.append({"hawker":h["key"],
                        "score":score,
@@ -175,7 +176,8 @@ def search(dish: str = Query(...),page:int=Query(1,ge=1),limit:int = Query(10,ge
                        "recommended_mentions":recommended_count,
                         "mentions":counts,
                         "thumbnail": img,
-                        "rating":rating}) 
+                        "rating":rating,
+                        "desc":desc}) 
         
         
       
