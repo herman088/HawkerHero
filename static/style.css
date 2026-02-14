@@ -40,6 +40,7 @@ input {
   display: flex;
   flex-direction: row;
   transition: all 0.2s ease-in-out;
+  font-family: "Poppins", sans-serif;
 }
 .card:hover {
   box-shadow: 0 4px 16px rgba(210, 105, 30, 0.15);
@@ -97,6 +98,7 @@ input {
   box-shadow: 0 8px 32px rgba(210, 105, 30, 0.2);
   transform: scale(0.9);
   transition: all 0.3s ease;
+  font-family: "Poppins", sans-serif;
 }
 #card-row-top {
   display: flex;
@@ -148,6 +150,8 @@ input {
   position: relative;
   top: 0;
   margin-block-start: 0;
+  font-weight: 700;
+  font-size: 22px;
 }
 #searchBtn {
   background-color: #d2691e;
@@ -195,7 +199,21 @@ input {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  font-family: "Poppins";
+  font-weight: 500;
+  font-size: 16px;
 }
 #page-info {
   margin: 0px 10px;
+}
+#modalRating,
+#mentions,
+#reco-count,
+#positive-count {
+  font-weight: 600;
+  font-size: 12px;
+}
+#desc {
+  font-weight: 400;
+  font-size: 15px;
 }
