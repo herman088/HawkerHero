@@ -3,3 +3,4 @@
 checkpoints/
 *.pyc 
 static/images
+*.svg
