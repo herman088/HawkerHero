@@ -217,3 +217,7 @@ input {
   font-weight: 400;
   font-size: 15px;
 }
+
+#suggest {
+  background-color: #d2691e;
+}

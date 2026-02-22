@@ -16,7 +16,8 @@ async function search(page = 1) {
 
   const container = document.getElementById("results");
   container.innerHTML = "";
-
+  const suggestDiv = document.getElementById("suggest");
+  checkSuggested(data.query, data.suggested_query, suggestDiv);
   data.results.forEach((h, i) => {
     const div = document.createElement("div");
     div.className = "card";
@@ -34,7 +35,12 @@ async function search(page = 1) {
 
   updatePagination(data.page, data.total_pages);
 }
-
+function checkSuggested(ogQuery, suggestQuery, div) {
+  div.innerHTML = "";
+  console.log(ogQuery, suggestQuery);
+  if (ogQuery === suggestQuery) return;
+  div.innerHTML = `<p> Did you mean ${suggestQuery}</p>`;
+}
 async function openHawker(cardData) {
   document.getElementById("modal-image").src = cardData.thumbnail;
   document.getElementById("modal-title").innerText = toTitleCase(

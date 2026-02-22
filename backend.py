@@ -30,6 +30,7 @@ def build_query(dish):
                         "match": {
                             "review_text": {
                                 "query": dish,
+                                "fuzziness":"AUTO",
                                 "boost": 1.0
                             }
                         }
@@ -38,6 +39,7 @@ def build_query(dish):
                         "match": {
                             "context_recommended": {
                                 "query": dish,
+                                "fuzziness":"AUTO",
                                 "boost": 2.0
                             }
                         }
@@ -50,11 +52,12 @@ def build_query(dish):
                                     "must": [
                                         {"term": {"absa.sentiment": "Positive"}},
                                         {
-                                            "wildcard": {
+                                            "match": {
                                             "absa.aspect": {
-                                                "value": "*chicken*rice*"
+                                               "query": dish,
+                                               "fuzziness":"AUTO",
                                             }
-                                         }
+                                          }
                                         }
                                     ]
                                 }
@@ -62,10 +65,29 @@ def build_query(dish):
                             "score_mode": "sum",
                             "boost": 3.0
                         }
-                    }
+                    },    {
+                            "match_phrase": {
+                                "hawker_name": {
+                                "query": dish,
+                                "boost": 15
+                                }
+                            }
+                        },
+                        {
+                            "match": {
+                                "hawker_name": {
+                                "query": dish,
+                                "fuzziness": "AUTO",
+                                "boost": 10
+                                }
+                            }
+                        }
+                    
                 ]
             }
         },
+        
+
         "aggs": { #sub-aggregations
             "by_hawker": {
                 "terms": {
@@ -86,7 +108,7 @@ def build_query(dish):
                                             {
                                                 "wildcard": {
                                                     "absa.aspect": {
-                                                        "value": "*chicken*rice*"
+                                                        "value": f"*{dish}*"
                                                 }
                                               }
                                             }
@@ -101,7 +123,7 @@ def build_query(dish):
                                     },
                                     "mention_count": {
                                         "value_count": {
-                                            "field": "absa.aspect"
+                                            "field": "absa.aspect.keyword"
                                         }
                                     }
                                 }
@@ -112,7 +134,7 @@ def build_query(dish):
                             "filter": {
                                 "match": {
                                 "context_recommended": {
-                                    "query": "chicken rice"
+                                    "query": dish
                                 }
                                 }
                             }
@@ -138,10 +160,23 @@ HAWKERS_BY_NAME = {
 @app.get("/search")
 def search(dish: str = Query(...),page:int=Query(1,ge=1),limit:int = Query(10,ge=1)):
     dish = normalize_query(dish)
-    query = build_query(dish)
+    suggest_resp = es.search(index=INDEX,body= {
+        "suggest": {
+            "dish_suggest": {
+                "text": dish,
+                "term": {
+                    "field": "absa.aspect",
+                    "suggest_mode": "popular"
+                }
+            }
+        }
+    })
+    options =  suggest_resp["suggest"]["dish_suggest"][0]["options"]
+    corrected =  options[0]["text"] if options else dish
+    query = build_query(corrected) 
 
     res = es.search(index=INDEX,body=query)
-
+    
     hawkers = []
 
     for h in res["aggregations"]["by_hawker"]["buckets"]:
@@ -194,6 +229,7 @@ def search(dish: str = Query(...),page:int=Query(1,ge=1),limit:int = Query(10,ge
 
     return {
         "query":dish,
+        "suggested_query":corrected,
         "page":page,
         "limit":limit,
         "total":total,
