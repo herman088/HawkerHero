@@ -4,6 +4,7 @@
 let currentPage = 1;
 const limit = 10;
 let currentQuery = " ";
+
 async function search(page = 1) {
   const q = document.getElementById("search").value;
   currentQuery = q;
@@ -39,7 +40,7 @@ function checkSuggested(ogQuery, suggestQuery, div) {
   div.innerHTML = "";
   console.log(ogQuery, suggestQuery);
   if (ogQuery === suggestQuery) return;
-  div.innerHTML = `<p> Did you mean ${suggestQuery}</p>`;
+  div.innerHTML = `<p> <strong>Showing results for </strong> ${suggestQuery}</p>`;
 }
 async function openHawker(cardData) {
   document.getElementById("modal-image").src = cardData.thumbnail;
