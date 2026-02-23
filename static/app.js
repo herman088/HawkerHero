@@ -4,17 +4,18 @@
 let currentPage = 1;
 const limit = 10;
 let currentQuery = " ";
-
+let currentSugQuery = " ";
 async function search(page = 1) {
   const q = document.getElementById("search").value;
   currentQuery = q;
+
   currentPage = page;
   const res = await fetch(
     `/search?dish=${encodeURIComponent(q)}&page=${page}&limit=${limit}`,
   );
 
   const data = await res.json(); //response body to js object
-
+  currentSugQuery = data.suggested_query;
   const container = document.getElementById("results");
   container.innerHTML = "";
   const suggestDiv = document.getElementById("suggest");
@@ -43,6 +44,11 @@ function checkSuggested(ogQuery, suggestQuery, div) {
   div.innerHTML = `<p> <strong>Showing results for </strong> ${suggestQuery}</p>`;
 }
 async function openHawker(cardData) {
+  const displayQuery =
+    currentSugQuery && currentSugQuery !== currentQuery
+      ? currentSugQuery
+      : currentQuery;
+
   document.getElementById("modal-image").src = cardData.thumbnail;
   document.getElementById("modal-title").innerText = toTitleCase(
     cardData.hawker,
@@ -50,11 +56,11 @@ async function openHawker(cardData) {
   document.getElementById("modal-rating").innerText =
     `⭐ ${cardData.rating || "N/A"}`;
   document.getElementById("mentions").innerText =
-    `Total ${currentQuery} mentions: ${cardData.mentions}`;
+    `Total ${displayQuery} mentions: ${cardData.mentions}`;
   document.getElementById("reco-count").innerText =
-    `Total ${currentQuery} recommendations: ${cardData.recommended_mentions}`;
+    `Total ${displayQuery} recommendations: ${cardData.recommended_mentions}`;
   document.getElementById("positive-count").innerText =
-    `Total ${currentQuery} positive mentions: ${cardData.positive_mentions}`;
+    `Total ${displayQuery} positive mentions: ${cardData.positive_mentions}`;
   document.getElementById("desc").innerText = `${cardData.desc}`;
   document.getElementById("modal").classList.remove("hidden");
 }
