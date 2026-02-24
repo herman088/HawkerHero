@@ -119,8 +119,8 @@ input {
 }
 #modal-close {
   position: absolute;
-  top: 5px;
-  right: 20px;
+  top: 0px;
+  right: 10px;
   color: white;
   font-size: 36px;
   font-weight: bold;
