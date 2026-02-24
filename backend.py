@@ -181,7 +181,7 @@ def search(dish: str = Query(...),page:int=Query(1,ge=1),limit:int = Query(10,ge
          query = build_query(corrected) 
     
     else:
-     corrected = dish;
+     corrected = dish; # once false , set corrected=dish so back in app.js,doesnt display suggestions 
      query = build_query(dish)
 
     res = es.search(index=INDEX,body=query)

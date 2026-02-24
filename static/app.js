@@ -2,10 +2,11 @@
 //if (e.key === "Enter") search(1);
 //});
 let currentPage = 1;
+let useSuggestQ = true;
 const limit = 10;
 let currentQuery = " ";
 let currentSugQuery = " ";
-async function search(page = 1, useSuggest = true) {
+async function search(page = 1, useSuggest = useSuggestQ) {
   const q = document.getElementById("search").value;
   currentQuery = q;
 
@@ -59,7 +60,14 @@ function altQueryDisplay(div, ogQuery, suggestQuery) {
   link.textContent = ogQuery;
   link.addEventListener("click", (e) => {
     e.preventDefault();
-    search(1, false);
+    useSuggestQ = false;
+    search(1, useSuggestQ);
+    // de-populate suggestion fields
+    suggest = document.getElementById("suggest");
+    ogSuggest = document.getElementById("og-suggest");
+
+    suggest.innerHTML = " ";
+    ogSuggest.innerHTML = "";
   });
 
   div.appendChild(document.createTextNode("Search for "));
