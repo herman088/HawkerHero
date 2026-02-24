@@ -5,6 +5,7 @@ from fastapi.responses import FileResponse
 import json
 import math
 
+
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="static", html=True), name="static")
@@ -158,10 +159,14 @@ HAWKERS_BY_NAME = {
 
 
 @app.get("/search")
-def search(dish: str = Query(...),page:int=Query(1,ge=1),limit:int = Query(10,ge=1)):
+def search(dish: str = Query(...),page:int=Query(1,ge=1),limit:int = Query(10,ge=1),useSuggest:bool = Query(True)):
+
+    
     dish = normalize_query(dish)
-    suggest_resp = es.search(index=INDEX,body= {
-        "suggest": {
+
+    if useSuggest:
+         suggest_resp = es.search(index=INDEX,body= {
+         "suggest": {
             "dish_suggest": {
                 "text": dish,
                 "term": {
@@ -170,13 +175,20 @@ def search(dish: str = Query(...),page:int=Query(1,ge=1),limit:int = Query(10,ge
                 }
             }
         }
-    })
-    options =  suggest_resp["suggest"]["dish_suggest"][0]["options"]
-    corrected =  options[0]["text"] if options else dish
-    query = build_query(corrected) 
+     })
+         options =  suggest_resp["suggest"]["dish_suggest"][0]["options"]
+         corrected =  options[0]["text"] if options else dish
+         query = build_query(corrected) 
+    
+    else:
+     corrected = dish;
+     query = build_query(dish)
 
     res = es.search(index=INDEX,body=query)
     
+    
+   
+   
     hawkers = []
 
     for h in res["aggregations"]["by_hawker"]["buckets"]:

@@ -5,13 +5,13 @@ let currentPage = 1;
 const limit = 10;
 let currentQuery = " ";
 let currentSugQuery = " ";
-async function search(page = 1) {
+async function search(page = 1, useSuggest = true) {
   const q = document.getElementById("search").value;
   currentQuery = q;
 
   currentPage = page;
   const res = await fetch(
-    `/search?dish=${encodeURIComponent(q)}&page=${page}&limit=${limit}`,
+    `/search?dish=${encodeURIComponent(q)}&page=${page}&limit=${limit}&useSuggest=${useSuggest}`,
   );
 
   const data = await res.json(); //response body to js object
@@ -19,7 +19,14 @@ async function search(page = 1) {
   const container = document.getElementById("results");
   container.innerHTML = "";
   const suggestDiv = document.getElementById("suggest");
-  checkSuggested(data.query, data.suggested_query, suggestDiv);
+
+  const ogSuggest = document.getElementById("og-suggest");
+
+  if (useSuggest) {
+    checkSuggested(data.query, data.suggested_query, suggestDiv);
+    altQueryDisplay(ogSuggest, data.query, data.suggested_query);
+  }
+
   data.results.forEach((h, i) => {
     const div = document.createElement("div");
     div.className = "card";
@@ -42,6 +49,22 @@ function checkSuggested(ogQuery, suggestQuery, div) {
   console.log(ogQuery, suggestQuery);
   if (ogQuery === suggestQuery) return;
   div.innerHTML = `<p> <strong>Showing results for </strong> ${suggestQuery}</p>`;
+}
+function altQueryDisplay(div, ogQuery, suggestQuery) {
+  div.innerHTML = "";
+  if (ogQuery === suggestQuery) return;
+
+  const link = document.createElement("a");
+  link.href = "#";
+  link.textContent = ogQuery;
+  link.addEventListener("click", (e) => {
+    e.preventDefault();
+    search(1, false);
+  });
+
+  div.appendChild(document.createTextNode("Search for "));
+  div.appendChild(link);
+  div.appendChild(document.createTextNode(" instead"));
 }
 async function openHawker(cardData) {
   const displayQuery =
