@@ -1,5 +1,5 @@
 # HawkerHero
-HawkerHero is a hawker food discovery engine that lets users search by dish, with over ** 6000** most relevant scraped reviews for over **60 ** hawkers as its data. \
+HawkerHero is a hawker food discovery engine that lets users search by dish, with over  **6000** most relevant scraped reviews for over **60** hawkers as its data. \
 Instead of relying on static stall listings, HawkerHero **aggregates and analyzes** thousands of reviews, extracting dish-level sentiment and popularity so users can find the best laksa, char kway teow, or chicken rice anywhere in Singapore.
 
 
@@ -19,7 +19,7 @@ Instead of relying on static stall listings, HawkerHero **aggregates and analyze
     + Apify Google Maps Scraper
  
 ## How it was built
-   + About 100 most relevant reviews of each 60+ Hawker centre's information is scraped with ** Apify Google Maps Scraper** , a JSON file is output, returning over 6000+ review's information such as rating, review text etc.
+   + About 100 most relevant reviews of each 60+ Hawker centre's information is scraped with **Apify Google Maps Scraper** , a JSON file is output, returning over 6000+ review's information such as rating, review text etc.
    ``` Sample JSON Object
    {
         "title": "Amoy Street Food Centre",
