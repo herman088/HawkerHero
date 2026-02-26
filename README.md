@@ -3,7 +3,7 @@ HawkerHero is a hawker food discovery engine that lets users search by dish, wit
 Instead of relying on static stall listings, HawkerHero aggregates and analyzes thousands of reviews, extracting dish-level sentiment and popularity so users can find the best laksa, char kway teow, or chicken rice anywhere in Singapore.
 
 
-#### Tech Stack 
+# Tech Stack 
                 
 + Back-End
     + FastAPI
