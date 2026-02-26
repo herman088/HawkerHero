@@ -86,7 +86,7 @@ Instead of relying on static stall listings, HawkerHero aggregates and analyzes 
       }
     ]
     ```
-+ JSON data indexxed to ElasticSearch, use strict ElasticSearch mapping rules to ensure data consistency & integrity. Similar to data types for a programming language.
+ + JSON data indexxed to ElasticSearch, use strict ElasticSearch mapping rules to ensure data consistency & integrity. Similar to data types for a programming language.
   ```
   mapping = {
     "settings": {
@@ -169,11 +169,11 @@ Instead of relying on static stall listings, HawkerHero aggregates and analyzes 
 }
   ```
 
-+ Use ElasticSearch aggregations and queries to retrieve and rank relevant Hawkers based on user's search term.
-## Features
-- Dish Search (Term or Phrase)
-- Fuzzy Search & Term Suggester(Looking to implement Phrase Suggester in future)
-- Direct Hawker Centre name search
+   + Use ElasticSearch aggregations and queries to retrieve and rank relevant Hawkers based on user's search term.
+  ## Features
+  - Dish Search (Term or Phrase)
+  - Fuzzy Search & Term Suggester(Looking to implement Phrase Suggester in future)
+  - Direct Hawker Centre name search
     
 
 ## Demo Video
