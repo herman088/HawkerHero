@@ -19,7 +19,7 @@ Instead of relying on static stall listings, HawkerHero aggregates and analyzes 
     + Apify Google Maps Scraper
  
 ## How it was built
-   + About 100 most relevant reviews of each 60+ Hawker centre's information is scraped with ** Apify Google Maps Scraper** , a JSON file is output, returning information such as rating, review text etc.
+   + About 100 most relevant reviews of each 60+ Hawker centre's information is scraped with ** Apify Google Maps Scraper** , a JSON file is output, returning over 6000+ review's information such as rating, review text etc.
    ``` Sample JSON Object
    {
         "title": "Amoy Street Food Centre",
@@ -86,6 +86,94 @@ Instead of relying on static stall listings, HawkerHero aggregates and analyzes 
       }
     ]
     ```
++ JSON data indexxed to ElasticSearch, use strict ElasticSearch mapping rules to ensure data consistency & integrity. Similar to data types for a programming language.
+  ```
+  mapping = {
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "folding_analyzer": {
+                    "tokenizer": "standard",
+                    "filter": ["lowercase", "asciifolding"]
+                }
+            },
+            "normalizer": {
+                "lowercase_normalizer": {
+                    "type": "custom",
+                    "filter": ["lowercase","asciifolding"]
+                }
+            }
+        }
+    },
+    "mappings":{
+        "properties":{
+            "hawker_name":{
+                "type": "text",
+                "analyzer": "folding_analyzer",
+                "fields": {
+                    "keyword": {"type": "keyword",
+                                "normalizer":"lowercase_normalizer"
+                            }
+                        }
+            },
+            "hawker_id": {
+            "type": "keyword"
+            },
+            "location": {
+                "type": "geo_point"
+            },
+            "review_text": {
+                "type": "text",
+                "analyzer": "english"
+            },
+            "review_rating": {"type": "integer"},
+            "review_author": {"type": "keyword"},
+            "review_date": {"type": "date"},
+
+            "food_rating": {"type": "integer"},
+            "service_rating": {"type": "integer"},
+            "atmosphere_rating": {"type": "integer"},
+             
+
+            "review_context": {"type": "flattened"},
+
+            "context_wait_min": { "type": "integer" },
+            "context_wait_max": { "type": "integer" },
+            "context_price_min": { "type": "integer" },
+            "context_price_max": { "type": "integer" }, 
+            "context_parking_space": { "type": "keyword" },
+
+            "context_recommended": {
+               "type": "text",
+               "analyzer": "folding_analyzer",
+               "fields": {
+                "raw": { "type": "keyword",
+                        "normalizer": "lowercase_normalizer"
+                    }
+                }
+            },
+
+              "context_meal_type": { "type": "keyword" },
+              "absa": {
+                "type": "nested",
+                "properties": {
+                "aspect": { "type": "keyword" },
+                "sentiment": { "type": "keyword" },
+                "confidence": { "type": "float" },
+                "probs": { "type": "float" }
+                }
+            }
+
+         }
+    }
+}
+  ```
+
++ Use ElasticSearch aggregations and queries to retrieve and rank relevant Hawkers based on user's search term.
+## Features
+- Dish Search (Term or Phrase)
+- Fuzzy Search & Term Suggester(Looking to implement Phrase Suggester in future)
+- Direct Hawker Centre name search
     
 
 ## Demo Video
