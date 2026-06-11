@@ -1,4 +1,5 @@
 # HawkerHero
+Hawker centres are the heart of Singapore's food culture — open-air complexes where independent stall owners serve affordable, iconic local dishes that have been perfected over generations
 HawkerHero is a hawker food discovery engine that lets users search by dish, with over  **6000** most relevant scraped reviews for over **60** hawkers as its data. \
 Instead of relying on static stall listings, HawkerHero **aggregates and analyzes** thousands of reviews, extracting dish-level sentiment and popularity so users can find the best laksa, char kway teow, or chicken rice anywhere in Singapore.
 
@@ -22,7 +23,11 @@ Instead of relying on static stall listings, HawkerHero **aggregates and analyze
 ### Infrastructure
 - FastAPI backend deployed on **Google Cloud Run**
 - ADK agent deployed on **Google Cloud Run** with dev UI (`/dev-ui/`)
-- Data indexed via Python Elasticsearch client                
+- Data indexed via Python Elasticsearch client
+
+
+
+               
 ## Tech Stack
 
 | Component | Technology |
