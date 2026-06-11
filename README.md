@@ -90,7 +90,7 @@ Elastic MCP exposes three ES|QL tools to the agent:
   }
 
    ```
-  + Used an Aspect Based Sentiment Model to run on review texts, this extracts the "aspect","sentiment","confidence","probability" of the review text and then added to JSON object.
+  + Used an Aspect Based Sentiment Model to run on review texts, this extracts the "aspect","sentiment","confidence","probability" of the review text and then added to JSON object. This later contributes to matching ,scoring and ranking of dish/terms 
     ```Sample return
      "absa": [
       {
