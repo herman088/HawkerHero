@@ -25,7 +25,7 @@ Instead of relying on static stall listings, HawkerHero **aggregates and analyze
 - ADK agent deployed on **Google Cloud Run** with dev UI (`/dev-ui/`)
 - Data indexed via Python Elasticsearch client
 
-
+![Architecture Diagram](archdiagram.png)
 
                
 ## Tech Stack
@@ -195,6 +195,9 @@ Instead of relying on static stall listings, HawkerHero **aggregates and analyze
 
    + Use ElasticSearch Query DSL aggregations and queries to retrieve and rank relevant Hawkers based on user's search term.
 
+##  Try it
+
+[Open HawkerHero](https://hawker-agent-574857249412.asia-southeast1.run.app)
     
 
 ## Demo Video
