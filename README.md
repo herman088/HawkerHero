@@ -199,6 +199,7 @@ Elastic MCP exposes three ES|QL tools to the agent:
   ```
 
    + Use ElasticSearch Query DSL aggregations and queries to retrieve and rank relevant Hawkers based on user's search term.
+   + Returns a custom score , based on mentions in reviews, whether the dish is recommended etc.
 
 ##  Try it
 
