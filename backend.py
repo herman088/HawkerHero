@@ -1,20 +1,38 @@
 from fastapi import FastAPI,Query 
-from fastapi.staticfiles import StaticFiles
+#from fastapi.staticfiles import StaticFiles
 from elasticsearch import Elasticsearch,helpers
-from fastapi.responses import FileResponse
+#from fastapi.responses import FileResponse
 import json
 import math
 
-
+from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+import os
+load_dotenv()
 app = FastAPI()
 
-app.mount("/static", StaticFiles(directory="static", html=True), name="static")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
+
+#app.mount("/static", StaticFiles(directory="static", html=True), name="static")
+
+#@app.get("/")
+#def home():
+    #return FileResponse("static/index.html")
+
+#es = Elasticsearch(['http://localhost:9200'], basic_auth=("elastic", "5vRl7G_wpBvo8CytUL=h")) 
+es = Elasticsearch(
+    os.getenv("ELASTIC_ENDPOINT"),
+    api_key=os.getenv("ELASTIC_API_KEY")
+)
 @app.get("/")
-def home():
-    return FileResponse("static/index.html")
-
-es = Elasticsearch(['http://localhost:9200'], basic_auth=("elastic", "5vRl7G_wpBvo8CytUL=h")) 
+def health():
+    return {"status": "ok"}
 
 INDEX = "hawker_reviews"
 
@@ -148,9 +166,11 @@ def build_query(dish):
 
 
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+JSON_PATH = os.path.join(BASE_DIR, "hawker_deets.json")
 
-with open("hawker_deets.json","r",encoding="utf-8") as f:
-    HAWKERS = json.load(f)
+with open(JSON_PATH,"r",encoding="utf-8") as f:
+    HAWKERS = json.load(f)  
    
 HAWKERS_BY_NAME = {
     h["title"].strip().lower(): h
@@ -251,9 +271,20 @@ def search(dish: str = Query(...),page:int=Query(1,ge=1),limit:int = Query(10,ge
         
 
 
+@app.get("/route-link", operation_id="get_route_link")
+def route_link(stops: str):
+        import urllib.parse
+        parts = stops.split("|")
+        encoded = "/".join(urllib.parse.quote(f"{p} Singapore") for p in parts)
+        url = f"https://www.google.com/maps/dir/{encoded}"
+        return {"route_url": url}
 
-
-
+@app.get("/maps-link", operation_id="get_maps_link")
+def maps_link(name: str):
+        import urllib.parse
+        query = urllib.parse.quote(f"{name} Singapore hawker")
+        url = f"https://www.google.com/maps/search/?api=1&query={query}"
+        return {"maps_url": url, "name": name}
 
 
 
