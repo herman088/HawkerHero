@@ -25,6 +25,11 @@ Instead of relying on static stall listings, HawkerHero **aggregates and analyze
 - ADK agent deployed on **Google Cloud Run** with dev UI (`/dev-ui/`)
 - Data indexed via Python Elasticsearch client
 
+  
+Elastic MCP exposes three ES|QL tools to the agent:
+- `get_hawker_info` — fetches centre details, rating, and coordinates by name
+- `get_top_rated` — returns the 5 highest rated hawker centres
+- `nearest_hawkers` — finds centres within a radius using `ST_DISTANCE` geo queries
 ![Architecture Diagram](archdiagram.png)
 
                
