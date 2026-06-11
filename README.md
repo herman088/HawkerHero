@@ -50,43 +50,113 @@ Elastic MCP exposes three ES|QL tools to the agent:
 ## Data preparation
    + About 100 most relevant reviews of each 60+ Hawker centre's information is scraped with **Apify Google Maps Scraper** , a JSON file is output, returning over 6000+ review's information such as rating, review text etc.
    ``` Sample JSON Object
-   {
-        "title": "Amoy Street Food Centre",
-        "reviewerId": "107847450021351030886",
-        "reviewerUrl": "https://www.google.com/maps/contrib/107847450021351030886?hl=en",
-        "name": "Jia Pin Lee",
-        "reviewerNumberOfReviews": 871,
-        "isLocalGuide": true,
-        "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjV2kiTzpebKwh5orpcA7XdN2qPxaAa9LarB45zR_ig3mymPvaHD=s1920-c-rp-mo-ba7-br100",
-        "text": "There are plenty of food choices here. Although there were many seats, it was easily crowded during lunchtime. Might want to try your luck upstairs.\n\nTried the beef noodle here. It was quite good. The beef was delicious, with different variations and parts. Noodle was OK. It was a bit too wet, though, for a dry noodle.\n\nPrices were slightly above average compared to other food court.",
-        "textTranslated": null,
-        "publishAt": "9 months ago",
-        "publishedAtDate": "2025-02-27T08:43:05.271Z",
-        "likesCount": 1,
-        "reviewId": "ChZDSUhNMG9nS0VJQ0FnTURnczc2UU5BEAE",
-        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTURnczc2UU5BEAE!2m1!1s0x0:0xc4c74da290ec162f!3m1!1s2@1:CIHM0ogKEICAgMDgs76QNA%7CCgwImcuAvgYQoJHMgQE%7C?hl=en",
-        "reviewOrigin": "Google",
-        "stars": 3,
-        "rating": null,
-        "responseFromOwnerDate": null,
-        "responseFromOwnerText": null,
-        "reviewImageUrls": [
-          "https://lh3.googleusercontent.com/geougc-cs/AMBA38t8ZwOcLyiqiX7pryaoaOJnJhgqeIARu6wl_Ae1lh_GfbCDmYHO0IoPO243i7bnBnQBeN2j049g9WRY9vtD_hEz_H3LGj-1ywIKx7FIiHHlQNETPN3BBoH2iWoWATA6nDwALNtj",
-          "https://lh3.googleusercontent.com/geougc-cs/AMBA38sttqVedF4Q-rFyxTFJAY4i-W83HTn_HHaGkBuxRefVO6tN2rbLIUcHYayPYZp-g6wKvIZpnBf29J2HXCKqWB62hNbtUfMdWYSgvSL91vAyCoD6oQ3PtehaddsB5VGF5LVMO_zu"
-        ],
-        "reviewContext": {
-          "Service": "Dine in",
-          "Meal type": "Lunch",
-          "Price per person": "$1–10"
-        },
-        "reviewDetailedRating": {
-          "Food": 3,
-          "Service": 3,
-          "Atmosphere": 3
-        },
-        "visitedIn": null,
-        "originalLanguage": "en",
-        "translatedLanguage": null
+    {
+    "title": "Amoy Street Food Centre",
+    "reviewerId": "102379501397919138214",
+    "reviewerUrl": "https://www.google.com/maps/contrib/102379501397919138214?hl=en",
+    "name": "Karen Heng",
+    "reviewerNumberOfReviews": 19,
+    "isLocalGuide": true,
+    "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjXhqlV6v8C0A3PU5i1fnAaJ_JZPzgFBEDFrxQoBannBRkBuzYZ-2w=s1920-c-rp-mo-ba3-br100",
+    "text": "A must visit fish soup stall, the lady boss is very generous with her servings, and will even ask you if you want extra pieces of fish! A bowl of mixed fish with tons of vegetables!",
+    "textTranslated": null,
+    "publishAt": "a year ago",
+    "publishedAtDate": "2024-09-24T10:56:54.090Z",
+    "likesCount": 0,
+    "reviewId": "ChZDSUhNMG9nS0VJQ0FnSUNuNG9ldFZ3EAE",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSUNuNG9ldFZ3EAE!2m1!1s0x0:0xc4c74da290ec162f!3m1!1s2@1:CIHM0ogKEICAgICn4oetVw%7CCgsI9rXKtwYQyKCTKw%7C?hl=en",
+    "reviewOrigin": "Google",
+    "stars": 4,
+    "rating": null,
+    "responseFromOwnerDate": null,
+    "responseFromOwnerText": null,
+    "reviewImageUrls": [
+      "https://lh3.googleusercontent.com/geougc-cs/AMBA38tD6j4Ys6s6pYg4bRu5RGo5nPKDdrm0gPtML5OFugbKaWdq-Hi1k-wFSSOD1PmX9xujltX4OImZ-6T_z2JPI7u1Tlj9IFfAZfPrrISRe-zpnz4q5jy7oGZqSr7giVDwKj_H2OCD",
+      "https://lh3.googleusercontent.com/geougc-cs/AMBA38tO26trDQM41zFFzclL4Wp-X02u_bc0ymLClMt4IQUuL7XQz54eM6ZnZwLkySL7p8pmohJlKRCWCQaab0HaH7KKqCyxo2pNrhlcxi6HjO-nDEL8IYXJnt2zzVFpinMGF9RpcLef",
+      "https://lh3.googleusercontent.com/geougc-cs/AMBA38s6mZ26aAYEs5HyRkpf3Gu9torEy7eOk3YUjPS8YCbqDSdbOCL-yXUlxGICLRtQdjBqY7rQ6mJso2nWzX0JSBPA5QCpW-gmOR2MklsEEKCVTbozqGgdqsCMI0Sx1sLcIpQESZYCLA"
+    ],
+    "reviewContext": {
+      "Service": "Dine in",
+      "Meal type": "Lunch",
+      "Price per person": "$1–10",
+      "Recommended dishes": "Fish Soup, Soup, Fish"
+    },
+    "reviewDetailedRating": {
+      "Food": 4,
+      "Service": 4,
+      "Atmosphere": 4
+    },
+    "visitedIn": null,
+    "originalLanguage": "en",
+    "translatedLanguage": null,
+    "location": {
+      "lat": 1.2793398636571,
+      "lon": 103.846652482254
+    },
+    "hawker_id": "cc243a333b87eb5d9e5a462319f2b243",
+    "review_id": 25,
+    "absa": [
+      {
+        "aspect": "soup",
+        "sentiment": "Neutral",
+        "confidence": 0.9947,
+        "probs": [
+          0.0002143131277989596,
+          0.994662344455719,
+          0.0051234085112810135
+        ]
+      },
+      {
+        "aspect": "boss",
+        "sentiment": "Positive",
+        "confidence": 0.9987,
+        "probs": [
+          0.00017170057981275022,
+          0.0010974238393828273,
+          0.9987308382987976
+        ]
+      },
+      {
+        "aspect": "servings",
+        "sentiment": "Positive",
+        "confidence": 0.9994,
+        "probs": [
+          0.00028132146690040827,
+          0.0003082789480686188,
+          0.9994103908538818
+        ]
+      },
+      {
+        "aspect": "bowl",
+        "sentiment": "Neutral",
+        "confidence": 0.9986,
+        "probs": [
+          0.0002119110431522131,
+          0.9985552430152893,
+          0.0012328424490988255
+        ]
+      },
+      {
+        "aspect": "mixed fish",
+        "sentiment": "Neutral",
+        "confidence": 0.9958,
+        "probs": [
+          0.00018408344476483762,
+          0.9958250522613525,
+          0.003990940749645233
+        ]
+      },
+      {
+        "aspect": "vegetables",
+        "sentiment": "Positive",
+        "confidence": 0.9975,
+        "probs": [
+          0.0001712126104393974,
+          0.002335642697289586,
+          0.9974931478500366
+        ]
+      }
+    ]
   }
 
    ```
