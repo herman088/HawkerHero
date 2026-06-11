@@ -49,7 +49,7 @@ Elastic MCP exposes three ES|QL tools to the agent:
  
 ## Data preparation
    + About 100 most relevant reviews of each 60+ Hawker centre's information is scraped with **Apify Google Maps Scraper** , a JSON file is output, returning over 6000+ review's information such as rating, review text etc.
-   + The review texts will later be further analysed and be used for ranking.
+   + The review texts, together with whether a term matches "recommended dishes" in "reviewContext" will later be further analysed and be used for ranking.
    ``` Sample JSON Object
      {
     "title": "Amoy Street Food Centre",
