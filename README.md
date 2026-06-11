@@ -3,22 +3,41 @@ HawkerHero is a hawker food discovery engine that lets users search by dish, wit
 Instead of relying on static stall listings, HawkerHero **aggregates and analyzes** thousands of reviews, extracting dish-level sentiment and popularity so users can find the best laksa, char kway teow, or chicken rice anywhere in Singapore.
 
 
-## Tech Stack 
-                
-+ Back-End
-    + FastAPI
-+ Aspect Based Sentiment Analysis Model
-    + PyABSA
-+ Database, aggregations and ranking
-    + ElasticSearch
-+ Front-End
-    * HTML
-    * CSS
-    * JS
-+ Scraping of data
-    + Apify Google Maps Scraper
+## Architecture 
+### Agent Layer
+- **Google ADK** (Agent Development Kit) with **Gemini 3 Flash** 
+- Multi-step reasoning across 4 tools — search, location, web, meal planning
+- Agentic behaviours: retry logic, conflict detection, cross-referencing, geographic stop planning
+
+### Tools
+- **FastAPI deployed on Cloud Run** — custom Elasticsearch Query DSL with ABSA nested aggregation for sentiment-ranked results
+- **Elastic MCP** via Kibana Agent Builder — ES|QL tools for location search and hawker centre metadata
+- **Google Search** — live stall verification, opening hours, crowd conditions
+
+### Data Layer
+- **Elasticsearch Cloud** — 6,500 hawker reviews indexed with ABSA nested fields and `geo_point` coordinates
+- `hawker_reviews` index — aspect-based sentiment scores per dish per stall
+- `hawker_centres` index — metadata, ratings, descriptions, coordinates
+
+### Infrastructure
+- FastAPI backend deployed on **Google Cloud Run**
+- ADK agent deployed on **Google Cloud Run** with dev UI (`/dev-ui/`)
+- Data indexed via Python Elasticsearch client                
+## Tech Stack
+
+| Component | Technology |
+|---|---|
+| Agent framework | Google ADK |
+| LLM | Gemini 3 Flash (Vertex AI) |
+| Search API | FastAPI — custom ABSA Query DSL aggregation |
+| Sentiment analysis | PyABSA — aspect-based sentiment on 6,500 reviews |
+| Vector/search engine | Elasticsearch Cloud |
+| Agent tools (MCP) | Elastic MCP via Kibana Agent Builder |
+| Location search | ES\|QL `ST_DISTANCE` geo queries |
+| Web search | Google Search (ADK built-in) |
+| Deployment | Google Cloud Run (FastAPI + ADK agent) |
  
-## How it was built
+## Data preparation
    + About 100 most relevant reviews of each 60+ Hawker centre's information is scraped with **Apify Google Maps Scraper** , a JSON file is output, returning over 6000+ review's information such as rating, review text etc.
    ``` Sample JSON Object
    {
@@ -169,12 +188,9 @@ Instead of relying on static stall listings, HawkerHero **aggregates and analyze
 }
   ```
 
-   + Use ElasticSearch aggregations and queries to retrieve and rank relevant Hawkers based on user's search term.
-  ## Features
-  - Dish Search (Term or Phrase)
-  - Fuzzy Search & Term Suggester(Looking to implement Phrase Suggester in future)
-  - Direct Hawker Centre name search
+   + Use ElasticSearch Query DSL aggregations and queries to retrieve and rank relevant Hawkers based on user's search term.
+
     
 
 ## Demo Video
-[Watch here](https://youtu.be/pYSYPNZMPWs)
+[Watch here](https://youtu.be/mZEFHnzxF1k)
