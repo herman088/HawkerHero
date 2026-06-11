@@ -11,7 +11,7 @@ Instead of relying on static stall listings, HawkerHero **aggregates and analyze
 - Agentic behaviours: retry logic, conflict detection, cross-referencing, geographic stop planning
 
 ### Tools
-- **FastAPI deployed on Cloud Run** — custom Elasticsearch Query DSL with ABSA nested aggregation for sentiment-ranked results
+- **FastAPI deployed on Cloud Run** — custom Elasticsearch Query DSL with ABSA nested aggregation, review data such as review text for sentiment-ranked results
 - **Elastic MCP** via Kibana Agent Builder — ES|QL tools for location search and hawker centre metadata
 - **Google Search** — live stall verification, opening hours, crowd conditions
 
