@@ -49,8 +49,9 @@ Elastic MCP exposes three ES|QL tools to the agent:
  
 ## Data preparation
    + About 100 most relevant reviews of each 60+ Hawker centre's information is scraped with **Apify Google Maps Scraper** , a JSON file is output, returning over 6000+ review's information such as rating, review text etc.
+   + The review texts will later be further analysed and be used for ranking.
    ``` Sample JSON Object
-    {
+     {
     "title": "Amoy Street Food Centre",
     "reviewerId": "102379501397919138214",
     "reviewerUrl": "https://www.google.com/maps/contrib/102379501397919138214?hl=en",
@@ -88,75 +89,7 @@ Elastic MCP exposes three ES|QL tools to the agent:
     },
     "visitedIn": null,
     "originalLanguage": "en",
-    "translatedLanguage": null,
-    "location": {
-      "lat": 1.2793398636571,
-      "lon": 103.846652482254
-    },
-    "hawker_id": "cc243a333b87eb5d9e5a462319f2b243",
-    "review_id": 25,
-    "absa": [
-      {
-        "aspect": "soup",
-        "sentiment": "Neutral",
-        "confidence": 0.9947,
-        "probs": [
-          0.0002143131277989596,
-          0.994662344455719,
-          0.0051234085112810135
-        ]
-      },
-      {
-        "aspect": "boss",
-        "sentiment": "Positive",
-        "confidence": 0.9987,
-        "probs": [
-          0.00017170057981275022,
-          0.0010974238393828273,
-          0.9987308382987976
-        ]
-      },
-      {
-        "aspect": "servings",
-        "sentiment": "Positive",
-        "confidence": 0.9994,
-        "probs": [
-          0.00028132146690040827,
-          0.0003082789480686188,
-          0.9994103908538818
-        ]
-      },
-      {
-        "aspect": "bowl",
-        "sentiment": "Neutral",
-        "confidence": 0.9986,
-        "probs": [
-          0.0002119110431522131,
-          0.9985552430152893,
-          0.0012328424490988255
-        ]
-      },
-      {
-        "aspect": "mixed fish",
-        "sentiment": "Neutral",
-        "confidence": 0.9958,
-        "probs": [
-          0.00018408344476483762,
-          0.9958250522613525,
-          0.003990940749645233
-        ]
-      },
-      {
-        "aspect": "vegetables",
-        "sentiment": "Positive",
-        "confidence": 0.9975,
-        "probs": [
-          0.0001712126104393974,
-          0.002335642697289586,
-          0.9974931478500366
-        ]
-      }
-    ]
+    "translatedLanguage": null
   }
 
    ```
